@@ -1,30 +1,3 @@
-// chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-//     if (message.action === "sendHandle") {
-//         let userHandle = message.handle;
-//         console.log("Sending handle to API:", userHandle);
-
-//         fetch("https://trishna.pythonanywhere.com/api/process_handle", {
-//             method: "POST",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//             body: JSON.stringify({ handle: userHandle })
-//         })
-//         .then(response => response.json())
-//         .then(data => {
-//             console.log("Response from API:", data);  // Check API response
-//             if (!data.recommendations || data.recommendations.length === 0) {
-//                 console.error("No recommendations received:", data);
-//             }
-//         })
-//         .catch(error => console.error("Error sending handle:", error));
-//     }
-// });
-
-
-
-
-
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     console.log("Background script received message:", message);
 
