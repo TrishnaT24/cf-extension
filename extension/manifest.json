@@ -1,22 +1,26 @@
+
+
 {
-    "manifest_version": 3,
-    "name": "Codeforces Handle Extractor",
-    "version": "1.0",
-    "description": "Extracts your Codeforces handle and sends it to an API",
-    "permissions": ["activeTab", "scripting", "storage"],
-    "host_permissions": ["https://codeforces.com/*"],
-    "background": {
+  "manifest_version": 3,
+  "name": "Codeforces Handle Extractor",
+  "version": "1.0",
+  "description": "Extracts your Codeforces handle and sends it to an API",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "host_permissions": [
+      "https://codeforces.com/*",
+      "https://trishna.pythonanywhere.com/*"
+  ],
+  "background": {
       "service_worker": "background.js"
-    },
-    "action": {
+  },
+  "action": {
       "default_popup": "popup.html",
       "default_icon": "icon.jpeg"
-    },
-    "content_scripts": [
+  },
+  "content_scripts": [
       {
-        "matches": ["https://codeforces.com/*"],
-        "js": ["content.js"]
+          "matches": ["https://codeforces.com/*"],
+          "js": ["content.js"]
       }
-    ]
-  }
-  
+  ]
+}
