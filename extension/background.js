@@ -3,7 +3,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         let userHandle = message.handle;
         console.log("Sending handle to API:", userHandle);
 
-        fetch("https://your-ml-api.com/process_handle", {
+        fetch("http://localhost:5000/api/process_handle", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
