@@ -58,18 +58,19 @@
 
 
 function findCodeforcesHandle() {
-    // First check URL for profile page
     let url = window.location.pathname;
     let match = url.match(/^\/profile\/(.+)$/);
     
     if (match) {
+        console.log("Found handle from URL:", match[1]); // Log handle from URL
         return match[1];
     }
     
-    // Try to find handle from profile link
     let profileLink = document.querySelector("a[href^='/profile/']");
     if (profileLink) {
-        return profileLink.getAttribute("href").split("/").pop();
+        const handle = profileLink.getAttribute("href").split("/").pop();
+        console.log("Found handle from profile link:", handle); // Log handle from link
+        return handle;
     }
     
     return null;
@@ -92,6 +93,10 @@ function init() {
                 
                 console.log("Background script response:", response);
                 if (response?.success) {
+                    // Get and display stored recommendations
+                    chrome.storage.local.get(['lastRecommendations'], function(result) {
+                        console.log("Stored recommendations:", result.lastRecommendations);
+                    });
                     console.log("Recommendations received successfully");
                 } else {
                     console.error("Error getting recommendations:", response?.error);
@@ -103,7 +108,6 @@ function init() {
     }
 }
 
-// Try both DOMContentLoaded and load events
 document.addEventListener("DOMContentLoaded", init);
 if (document.readyState === "complete") {
     init();
