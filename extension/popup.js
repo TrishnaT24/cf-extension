@@ -74,7 +74,7 @@ document.getElementById("sendHandle").addEventListener("click", () => {
                 }
 
                 const handle = extractHandle();
-                console.log("Found handle:", handle); // Log handle immediately when found
+                console.log("Found handle:", handle);
                 
                 if (handle) {
                     return handle;
@@ -84,23 +84,23 @@ document.getElementById("sendHandle").addEventListener("click", () => {
                 }
             }
         }).then(result => {
-            console.log("Script execution result:", result);
-            
             if (result && result[0]?.result) {
                 const handle = result[0].result;
-                console.log("Extracted handle:", handle); // Log handle in popup context
+                console.log("Extracted handle:", handle);
                 
                 chrome.runtime.sendMessage(
                     { action: "sendHandle", handle: handle },
                     response => {
                         console.log("Background script response:", response);
                         if (response?.success) {
-                            // Get and display stored recommendations
+                            console.log("Received recommendations:", response.data);
+                            // Double-check storage to ensure data is there
                             chrome.storage.local.get(['lastRecommendations'], function(result) {
-                                console.log("Stored recommendations:", result.lastRecommendations);
+                                console.log("Verified stored recommendations:", result.lastRecommendations);
                             });
                             alert("Recommendations received successfully!");
                         } else {
+                            console.error("Error:", response?.error);
                             alert("Error getting recommendations. Check console for details.");
                         }
                     }

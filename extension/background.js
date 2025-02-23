@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     
     if (message.action === "sendHandle") {
         let userHandle = message.handle;
-        console.log("Processing handle:", userHandle); // Log handle in background
+        console.log("Processing handle:", userHandle);
         
         fetch("https://trishna.pythonanywhere.com/api/process_handle", {
             method: "POST",
@@ -89,17 +89,17 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
                 throw new Error("No recommendations received");
             }
             
-            // Store recommendations in chrome.storage
+            // Store recommendations and notify about success only after storage is complete
             chrome.storage.local.set({
                 'lastRecommendations': data.recommendations,
                 'timestamp': Date.now()
             }, () => {
-                console.log("Recommendations stored in local storage:", data.recommendations);
-            });
-            
-            sendResponse({
-                success: true,
-                data: data
+                console.log("Stored recommendations:", data.recommendations);
+                // Send response only after storage is complete
+                sendResponse({
+                    success: true,
+                    data: data.recommendations // Send recommendations directly in response
+                });
             });
         })
         .catch(error => {
@@ -112,8 +112,4 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
         
         return true; // Keep the message channel open
     }
-});
-
-chrome.runtime.onInstalled.addListener(() => {
-    console.log("Extension installed/updated");
 });
